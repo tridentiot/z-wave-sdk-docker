@@ -37,8 +37,8 @@ RUN mkdir -p /usr/local/share/plantuml \
   && sha256sum ${PLANTUML_JAR_PATH} | grep '^f1070c42b20e6a38015e52c10821a9db13bedca6b5d5bc6a6192fcab6e612691 '
 
 # Fetch and install Doxygen
-ARG DOXYGEN_URL=https://github.com/doxygen/doxygen/archive/Release_1_9_4.zip
-ARG DOXYGEN_SHA512=4bf5fde0a94e077f78673499152c4e2c5456d31f758bd5e3cf3fb8f1a90836b273739c5d655345068235f202be422790ed0bcbb95ecaa95f818e718322d60f55
+ARG DOXYGEN_URL=https://github.com/doxygen/doxygen/archive/Release_1_10_0.zip
+ARG DOXYGEN_SHA512=b05ee2a790a6a477914a3dff28594708ac7e00956a2960df96e7dfd353e1b93afc538d464e05b630540f17c8ade30772516df885f73ac766508718b36ae0ba99
 RUN wget -q $DOXYGEN_URL -O /tmp/doxygen.zip \
     && echo "$DOXYGEN_SHA512 /tmp/doxygen.zip" | sha512sum -c --quiet \
     && cd /tmp/ \
