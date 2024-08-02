@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Copenhagen
 
 # Install gpg by itself as it needs recommended packages (at least dirmngr).
-RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graphviz make libc6-dev patch python3 python3-pip python3-virtualenv python3-build cmake git gcc g++ gcc-multilib g++-multilib libboost-log1.74.0 dos2unix ruby ruby-dev clang valgrind texlive-bibtex-extra default-jre nodejs python3-yaml gdb' \
+RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graphviz make libc6-dev patch python3 python3-pip python3-virtualenv python3-build cmake git gcc g++ gcc-multilib g++-multilib libboost-log1.74.0 dos2unix ruby ruby-dev clang valgrind texlive-bibtex-extra default-jre nodejs python3-yaml gdb xz-utils' \
     && apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends $deps \
     && apt-get install -y gpg \
@@ -51,12 +51,14 @@ RUN wget -q $DOXYGEN_URL -O /tmp/doxygen.zip \
     && rm -rf /tmp/doxygen*
 
 # ARM GCC
-RUN wget -O archive.tar.bz2 "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2?rev=78196d3461ba4c9089a67b5f33edf82a&hash=D484B37FF37D6FC3597EBE2877FB666A41D5253B" && \
-    echo 2383e4eb4ea23f248d33adc70dc3227e archive.tar.bz2 > /tmp/archive.md5 && md5sum -c /tmp/archive.md5 && rm /tmp/archive.md5 && \
-    tar xf archive.tar.bz2 -C /opt && \
-    rm archive.tar.bz2
+RUN cd /tmp/ && \
+    wget https://developer.arm.com/-/media/Files/downloads/gnu/12.3.rel1/binrel/arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz && \
+    wget https://developer.arm.com/-/media/Files/downloads/gnu/12.3.rel1/binrel/arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz.sha256asc && \
+    sha256sum --check arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz.sha256asc && \
+    tar xJf arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz -C /opt && \
+    rm arm-gnu-toolchain*
 
-ENV PATH=/opt/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
+ENV PATH=/opt/arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi/bin:$PATH
 
 # GCOVR
 RUN pip install gcovr==7.0
