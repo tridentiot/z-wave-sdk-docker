@@ -67,4 +67,4 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN groupadd -g $GID -o build
 RUN useradd -m -u $UID -g $GID -G sudo -p -o -s /bin/bash build
 USER build
-WORKDIR /z-wave
+WORKDIR /sdk
