@@ -14,7 +14,8 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     && rm -rf /var/lib/apt/lists/*
 
 # CMake
-ARG CMAKE_VERSION=3.23.5
+# Version 3.28.3 is the same as in Ubuntu 24.04.2 as of 2025-06-11.
+ARG CMAKE_VERSION=3.28.3
 ARG CMAKE_KEY=CBA23971357C2E6590D9EFD3EC8FEF3A7BFB4EDA
 RUN gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys "${CMAKE_KEY}" && \
     mkdir -p /tmp/cmake && \
