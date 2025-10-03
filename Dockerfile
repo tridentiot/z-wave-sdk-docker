@@ -61,7 +61,7 @@ RUN cd /tmp/ && \
 ENV PATH=/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin:$PATH
 
 # GCOVR and pyelftools
-RUN pip install gcovr==7.0 pyelftools==0.32
+RUN pip install gcovr==7.0 pyelftools==0.32 ecdsa
 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN groupadd -g $GID -o build
