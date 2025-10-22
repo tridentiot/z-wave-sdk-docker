@@ -37,18 +37,16 @@ RUN mkdir -p /usr/local/share/plantuml \
   && sha256sum ${PLANTUML_JAR_PATH} | grep '^f1070c42b20e6a38015e52c10821a9db13bedca6b5d5bc6a6192fcab6e612691 '
 
 # Fetch and install Doxygen
-ARG DOXYGEN_URL=https://github.com/doxygen/doxygen/archive/Release_1_10_0.zip
-ARG DOXYGEN_SHA512=b05ee2a790a6a477914a3dff28594708ac7e00956a2960df96e7dfd353e1b93afc538d464e05b630540f17c8ade30772516df885f73ac766508718b36ae0ba99
-RUN wget -q $DOXYGEN_URL -O /tmp/doxygen.zip \
-    && echo "$DOXYGEN_SHA512 /tmp/doxygen.zip" | sha512sum -c --quiet \
+ARG DOXYGEN_URL=https://github.com/doxygen/doxygen/releases/download/Release_1_15_0/doxygen-1.15.0.linux.bin.tar.gz
+ARG DOXYGEN_SHA256=0ec2e5b2c3cd82b7106d19cb42d8466450730b8cb7a9e85af712be38bf4523a1
+RUN wget -q $DOXYGEN_URL -O /tmp/doxygen.tar.gz \
+    && echo "$DOXYGEN_SHA256 /tmp/doxygen.tar.gz" | sha256sum -c --quiet \
     && cd /tmp/ \
-    && unzip -q doxygen.zip \
-    && cd /tmp/doxygen*/ \
-    && mkdir build && cd build \
-    && cmake .. \
-    && N_CPU_CORES=$(nproc) \
-    && make -j $N_CPU_CORES && make install \
-    && rm -rf /tmp/doxygen*
+    && mkdir /opt/doxygen \
+    && tar -xvf doxygen.tar.gz -C /opt/doxygen/ --strip-components=1 \
+    && rm /tmp/doxygen*
+
+ENV PATH=/opt/doxygen/bin:$PATH
 
 # ARM GCC
 RUN cd /tmp/ && \
