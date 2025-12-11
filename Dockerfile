@@ -1,9 +1,9 @@
-FROM ubuntu:22.04
-
-ARG UID=1000
-ARG GID=1000
+FROM ubuntu:24.04
 
 ARG DEBIAN_FRONTEND=noninteractive
+
+RUN userdel -r ubuntu 2>/dev/null
+
 ENV TZ=Europe/Copenhagen
 
 # Install gpg by itself as it needs recommended packages (at least dirmngr).
@@ -11,6 +11,7 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     && apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends $deps \
     && apt-get install -y gpg \
+    gosu \
     && rm -rf /var/lib/apt/lists/*
 
 # CMake
@@ -59,10 +60,12 @@ RUN cd /tmp/ && \
 ENV PATH=/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin:$PATH
 
 # GCOVR and pyelftools
-RUN pip install gcovr==7.0 pyelftools==0.32 ecdsa
+RUN pip install --break-system-packages gcovr==7.0 pyelftools==0.32 ecdsa
 
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN groupadd -g $GID -o build
-RUN useradd -m -u $UID -g $GID -G sudo -p -o -s /bin/bash build
-USER build
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 700 /usr/local/bin/entrypoint.sh
+
 WORKDIR /sdk
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["bash"]
