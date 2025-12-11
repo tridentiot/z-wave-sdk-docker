@@ -35,6 +35,18 @@ RUN wget -q $DOXYGEN_URL -O /tmp/doxygen.tar.gz \
 
 ENV PATH=/opt/doxygen/bin:$PATH
 
+# Fetch and install kaitai-compiler until maintained by distro
+# TODO: https://bugs.debian.org/919693
+ARG KAITAI_URL=https://github.com/kaitai-io/kaitai_struct_compiler/releases/download/0.10/kaitai-struct-compiler_0.10_all.deb
+ARG KAITAI_SHA=2d8d9a4f72fa348bfff6f85a1b01802485bf20003f03e254ae37ffa362fdd398
+RUN mkdir -p /tmp/kaitai/ && \
+    cd /tmp/kaitai/ && \
+    wget -q $KAITAI_URL -O kaitai-compiler.deb && \
+    echo "2d8d9a4f72fa348bfff6f85a1b01802485bf20003f03e254ae37ffa362fdd398 *kaitai-compiler.deb" > checksum.txt && \
+    sha256sum --check checksum.txt && \
+    apt-get install -y ./kaitai-compiler.deb && \
+    rm -rf /tmp/kaitai/
+
 # GCOVR and pyelftools
 RUN pip install --break-system-packages gcovr==7.0 pyelftools==0.32 ecdsa
 
