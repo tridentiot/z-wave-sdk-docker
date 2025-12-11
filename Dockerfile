@@ -14,22 +14,6 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     gosu \
     && rm -rf /var/lib/apt/lists/*
 
-# CMake
-ARG CMAKE_VERSION=3.23.5
-ARG CMAKE_KEY=CBA23971357C2E6590D9EFD3EC8FEF3A7BFB4EDA
-RUN gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys "${CMAKE_KEY}" && \
-    mkdir -p /tmp/cmake && \
-    cd /tmp/cmake && \
-    wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-SHA-256.txt && \
-    wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz && \
-    sha256sum --quiet -c --ignore-missing cmake-${CMAKE_VERSION}-SHA-256.txt && \
-    wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-SHA-256.txt.asc && \
-    gpg --verify cmake-${CMAKE_VERSION}-SHA-256.txt.asc cmake-${CMAKE_VERSION}-SHA-256.txt && \
-    tar -xvf cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz -C /opt && \
-    rm -rf /tmp/cmake
-
-ENV PATH=/opt/cmake-${CMAKE_VERSION}-linux-x86_64/bin:$PATH
-
 # Plantuml
 ENV PLANTUML_JAR_PATH=/usr/local/share/plantuml/plantuml.jar
 RUN mkdir -p /usr/local/share/plantuml \
