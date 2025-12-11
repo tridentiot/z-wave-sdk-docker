@@ -13,6 +13,7 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     && apt-get install -y gpg \
     gosu \
     bash-completion \
+    gcc-arm-none-eabi \
     && rm -rf /var/lib/apt/lists/*
 
 # Plantuml
@@ -33,16 +34,6 @@ RUN wget -q $DOXYGEN_URL -O /tmp/doxygen.tar.gz \
     && rm /tmp/doxygen*
 
 ENV PATH=/opt/doxygen/bin:$PATH
-
-# ARM GCC
-RUN cd /tmp/ && \
-    wget https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz && \
-    wget https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz.sha256asc && \
-    sha256sum --check arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz.sha256asc && \
-    tar xJf arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz -C /opt && \
-    rm arm-gnu-toolchain*
-
-ENV PATH=/opt/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin:$PATH
 
 # GCOVR and pyelftools
 RUN pip install --break-system-packages gcovr==7.0 pyelftools==0.32 ecdsa
