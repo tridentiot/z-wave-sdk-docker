@@ -12,6 +12,7 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     && apt-get install -y --no-install-recommends $deps \
     && apt-get install -y gpg \
     gosu \
+    bash-completion \
     && rm -rf /var/lib/apt/lists/*
 
 # Plantuml
