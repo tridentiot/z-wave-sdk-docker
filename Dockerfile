@@ -28,10 +28,9 @@ ARG DOXYGEN_URL=https://github.com/doxygen/doxygen/releases/download/Release_1_1
 ARG DOXYGEN_SHA256=0ec2e5b2c3cd82b7106d19cb42d8466450730b8cb7a9e85af712be38bf4523a1
 RUN wget -q $DOXYGEN_URL -O /tmp/doxygen.tar.gz \
     && echo "$DOXYGEN_SHA256 /tmp/doxygen.tar.gz" | sha256sum -c --quiet \
-    && cd /tmp/ \
-    && mkdir /opt/doxygen \
-    && tar -xvf doxygen.tar.gz -C /opt/doxygen/ --strip-components=1 \
-    && rm /tmp/doxygen*
+    && mkdir -p /opt/doxygen \
+    && tar -tzvf /tmp/doxygen.tar.gz -C /opt/doxygen/ --strip-components=1 \
+    && rm -rf /tmp/doxygen*
 
 ENV PATH=/opt/doxygen/bin:$PATH
 
