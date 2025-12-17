@@ -14,6 +14,7 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     gosu \
     bash-completion \
     gcc-arm-none-eabi \
+    shellcheck \
     && rm -rf /var/lib/apt/lists/*
 
 # Plantuml
