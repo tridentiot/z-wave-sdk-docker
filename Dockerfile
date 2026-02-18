@@ -14,7 +14,8 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     gosu \
     bash-completion \
     gcc-arm-none-eabi \
-    gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf \
+    gcc-arm-linux-gnueabihf \
+    g++-arm-linux-gnueabihf \
     shellcheck \
     && rm -rf /var/lib/apt/lists/*
 
