@@ -7,7 +7,7 @@ RUN userdel -r ubuntu 2>/dev/null
 ENV TZ=Europe/Copenhagen
 
 # Install gpg by itself as it needs recommended packages (at least dirmngr).
-RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graphviz make libc6-dev patch python3 python3-pip python3-virtualenv python3-build cmake git gcc g++ gcc-multilib g++-multilib libboost-log1.74.0 dos2unix ruby ruby-dev clang valgrind texlive-bibtex-extra default-jre nodejs python3-yaml gdb xz-utils pylint pigz gh' \
+RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graphviz make libc6-dev patch python3 python3-pip python3-virtualenv python3-build cmake git gcc g++ libboost-log1.74.0 dos2unix ruby ruby-dev clang valgrind texlive-bibtex-extra default-jre nodejs python3-yaml gdb xz-utils pylint pigz gh' \
     && apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends $deps \
     && apt-get install -y gpg \
@@ -16,6 +16,8 @@ RUN deps='sudo curl bzip2 ca-certificates wget zip unzip tzdata flex bison graph
     gcc-arm-none-eabi \
     gcc-arm-linux-gnueabihf \
     g++-arm-linux-gnueabihf \
+    gcc-i686-linux-gnu \
+    g++-i686-linux-gnu \
     shellcheck \
     && rm -rf /var/lib/apt/lists/*
 
