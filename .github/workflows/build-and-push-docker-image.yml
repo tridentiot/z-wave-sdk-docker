@@ -37,19 +37,10 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
-      - uses: tibdex/github-app-token@v2.1.0
-        id: get_installation_token
-        with:
-          app_id: 384283
-          private_key: ${{ secrets.CHECKOUT_BOT_PRIVATE_KEY }}
-          installation_retrieval_mode: organization
-          installation_retrieval_payload: tridentiot
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: false
-          token: ${{ steps.get_installation_token.outputs.token }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
