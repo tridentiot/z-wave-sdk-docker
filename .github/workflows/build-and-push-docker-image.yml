@@ -15,10 +15,21 @@ env:
 
 jobs:
   build-and-push-image:
-    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+        os: [ubuntu-latest, tr-linux-arm64-ubuntu24-2c-runner]
+        exclude:
+          - platform: linux/arm64
+            os: ubuntu-latest
+          - platform: linux/amd64
+            os: tr-linux-arm64-ubuntu24-2c-runner
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout repository
@@ -41,6 +52,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
+          platforms: ${{ matrix.platform }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
