@@ -23,7 +23,7 @@ jobs:
         platform:
           - linux/amd64
           - linux/arm64
-        os: [ubuntu-latest, tr-linux-arm64-ubuntu24-2c-runner]
+        os: ubuntu-latest
         exclude:
           - platform: linux/arm64
             os: ubuntu-latest
@@ -67,7 +67,6 @@ jobs:
           push: true
           tags:  ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
         run: |
